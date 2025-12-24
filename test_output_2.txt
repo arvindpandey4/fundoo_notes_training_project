@@ -1,0 +1,117 @@
+[dotenv@17.2.3] injecting env (5) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[32minfo[39m: Server running on 5000 {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+
+
+  Label API
+[32minfo[39m: MongoDB Connected: localhost {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: Registered: testuser1766559088323@example.com {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:51:28 +0000] "POST /api/v1/users/register HTTP/1.1" 201 102 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: Login: testuser1766559088323@example.com {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:51:28 +0000] "POST /api/v1/users/login HTTP/1.1" 200 481 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[31merror[39m: Not authorized | /api/v1/labels {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:51:28 +0000] "POST /api/v1/labels HTTP/1.1" 401 3788 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+    1) should create a label
+[31merror[39m: Not authorized | /api/v1/labels {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:51:28 +0000] "GET /api/v1/labels HTTP/1.1" 401 8637 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+    2) should get all labels
+[31merror[39m: Not authorized | /api/v1/labels/undefined {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:51:28 +0000] "GET /api/v1/labels/undefined HTTP/1.1" 401 8637 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+    3) should get label by ID
+[31merror[39m: Not authorized | /api/v1/labels/undefined {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:51:28 +0000] "PUT /api/v1/labels/undefined HTTP/1.1" 401 3788 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+    4) should update label
+[31merror[39m: Not authorized | /api/v1/labels/undefined {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:51:28 +0000] "DELETE /api/v1/labels/undefined HTTP/1.1" 401 8637 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:21:28"}
+    5) should delete label
+
+
+  0 passing (310ms)
+  5 failing
+
+  1) Label API
+       should create a label:
+
+      Uncaught AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 201 but got 401
+      + expected - actual
+
+      -401
+      +201
+      
+      at C:\Arvind\Projects\Fundoo_App\src\test\label.test.js:39:37
+      at Request.callback (node_modules\superagent\lib\node\index.js:716:12)
+      at C:\Arvind\Projects\Fundoo_App\node_modules\superagent\lib\node\index.js:916:18
+      at IncomingMessage.<anonymous> (node_modules\superagent\lib\node\parsers\json.js:19:7)
+      at IncomingMessage.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+  2) Label API
+       should get all labels:
+
+      Uncaught AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 200 but got 401
+      + expected - actual
+
+      -401
+      +200
+      
+      at C:\Arvind\Projects\Fundoo_App\src\test\label.test.js:52:37
+      at Request.callback (node_modules\superagent\lib\node\index.js:716:12)
+      at C:\Arvind\Projects\Fundoo_App\node_modules\superagent\lib\node\index.js:916:18
+      at IncomingMessage.<anonymous> (node_modules\superagent\lib\node\parsers\json.js:19:7)
+      at IncomingMessage.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+  3) Label API
+       should get label by ID:
+
+      Uncaught AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 200 but got 401
+      + expected - actual
+
+      -401
+      +200
+      
+      at C:\Arvind\Projects\Fundoo_App\src\test\label.test.js:64:37
+      at Request.callback (node_modules\superagent\lib\node\index.js:716:12)
+      at C:\Arvind\Projects\Fundoo_App\node_modules\superagent\lib\node\index.js:916:18
+      at IncomingMessage.<anonymous> (node_modules\superagent\lib\node\parsers\json.js:19:7)
+      at IncomingMessage.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+  4) Label API
+       should update label:
+
+      Uncaught AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 200 but got 401
+      + expected - actual
+
+      -401
+      +200
+      
+      at C:\Arvind\Projects\Fundoo_App\src\test\label.test.js:77:37
+      at Request.callback (node_modules\superagent\lib\node\index.js:716:12)
+      at C:\Arvind\Projects\Fundoo_App\node_modules\superagent\lib\node\index.js:916:18
+      at IncomingMessage.<anonymous> (node_modules\superagent\lib\node\parsers\json.js:19:7)
+      at IncomingMessage.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+  5) Label API
+       should delete label:
+
+      Uncaught AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 200 but got 401
+      + expected - actual
+
+      -401
+      +200
+      
+      at C:\Arvind\Projects\Fundoo_App\src\test\label.test.js:89:37
+      at Request.callback (node_modules\superagent\lib\node\index.js:716:12)
+      at C:\Arvind\Projects\Fundoo_App\node_modules\superagent\lib\node\index.js:916:18
+      at IncomingMessage.<anonymous> (node_modules\superagent\lib\node\parsers\json.js:19:7)
+      at IncomingMessage.emit (node:events:530:35)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+
+

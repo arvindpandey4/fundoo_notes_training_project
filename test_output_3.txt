@@ -1,0 +1,25 @@
+[dotenv@17.2.3] injecting env (5) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[32minfo[39m: Server running on 5000 {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+
+
+  Label API
+[32minfo[39m: MongoDB Connected: localhost {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+[32minfo[39m: Registered: testuser1766559202426@example.com {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:53:22 +0000] "POST /api/v1/users/register HTTP/1.1" 201 102 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+[32minfo[39m: Login: testuser1766559202426@example.com {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:53:22 +0000] "POST /api/v1/users/login HTTP/1.1" 200 481 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+[32minfo[39m: Label created: 694b8de2d1bd7c39cc2f5f9c {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:53:22 +0000] "POST /api/v1/labels HTTP/1.1" 201 198 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+    ✔ should create a label
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:53:22 +0000] "GET /api/v1/labels HTTP/1.1" 200 200 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+    ✔ should get all labels
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:53:22 +0000] "GET /api/v1/labels/694b8de2d1bd7c39cc2f5fa0 HTTP/1.1" 200 198 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+    ✔ should get label by ID
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:53:22 +0000] "PUT /api/v1/labels/694b8de2d1bd7c39cc2f5fa0 HTTP/1.1" 200 201 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+    ✔ should update label
+[32minfo[39m: ::ffff:127.0.0.1 - - [24/Dec/2025:06:53:22 +0000] "DELETE /api/v1/labels/694b8de2d1bd7c39cc2f5fa0 HTTP/1.1" 200 36 "-" "node-superagent/3.8.3" {"service":"fundoo-backend","timestamp":"2025-12-24 12:23:22"}
+    ✔ should delete label
+
+
+  5 passing (284ms)
+

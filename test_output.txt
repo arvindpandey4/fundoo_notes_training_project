@@ -1,0 +1,20 @@
+[dotenv@17.2.3] injecting env (5) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+
+ Exception during run: TypeError: fn is not a function
+    at exports.use (C:\Arvind\Projects\Fundoo_App\node_modules\chai\lib\chai.js:39:5)
+    at Object.<anonymous> (C:\Arvind\Projects\Fundoo_App\src\test\label.test.js:5:6)
+    at Module._compile (node:internal/modules/cjs/loader:1554:14)
+    at Object..js (node:internal/modules/cjs/loader:1706:10)
+    at Module.load (node:internal/modules/cjs/loader:1289:32)
+    at Function._load (node:internal/modules/cjs/loader:1108:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at cjsLoader (node:internal/modules/esm/translators:262:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:196:7)
+    at ModuleJob.run (node:internal/modules/esm/module_job:271:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:578:26)
+    at async formattedImport (C:\Arvind\Projects\Fundoo_App\node_modules\mocha\lib\nodejs\esm-utils.js:10:14)
+    at async Object.requireModule [as requireOrImport] (C:\Arvind\Projects\Fundoo_App\node_modules\mocha\lib\nodejs\esm-utils.js:102:30)
+    at async exports.loadFilesAsync (C:\Arvind\Projects\Fundoo_App\node_modules\mocha\lib\nodejs\esm-utils.js:152:20)
+    at async singleRun (C:\Arvind\Projects\Fundoo_App\node_modules\mocha\lib\cli\run-helpers.js:168:3)
+    at async exports.handler (C:\Arvind\Projects\Fundoo_App\node_modules\mocha\lib\cli\run.js:379:5)
