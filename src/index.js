@@ -4,12 +4,16 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
+const { connectRedis } = require('./config/redis');
+const { startEmailConsumer } = require('./services/email.service');
 const routes = require('./routes');
 const { errorHandler, notFound } = require('./middlewares/error.middleware');
 const logger = require('./utils/logger');
 
 dotenv.config();
 connectDB();
+connectRedis();
+startEmailConsumer();
 const app = express();
 
 app.use(helmet());

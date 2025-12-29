@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "mocha src/test/**/*.test.js --timeout 10000 --exit"
+    "test": "mocha src/test/**/*.test.js --timeout 10000 --exit",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix"
   },
   "keywords": [],
   "author": "",
@@ -21,11 +23,15 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.0.2",
     "morgan": "^1.10.1",
+    "nodemailer": "^7.0.12",
+    "rabbitmq-client": "^5.0.8",
+    "redis": "^5.10.0",
     "winston": "^3.19.0"
   },
   "devDependencies": {
     "chai": "^4.5.0",
     "chai-http": "^4.3.0",
+    "eslint": "^9.39.2",
     "mocha": "^11.7.5",
     "nodemon": "^3.1.11"
   }
