@@ -1,14 +1,252 @@
-@import '../Login/Login.scss';
+.register-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    font-family: 'Roboto', 'Arial', sans-serif;
 
-.auth-form {
-    .form-row {
+    .register-card {
+        width: 100%;
+        max-width: 748px;
+        /* Based on typical Google signup card width */
+        background: #fff;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        padding: 48px 40px 36px;
+        margin: 20px;
+
+        @media (max-width: 768px) {
+            border: none;
+            padding: 24px;
+            max-width: 100%;
+        }
+    }
+
+    .register-content {
         display: flex;
-        gap: 12px;
-        margin-bottom: 20px;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 20px;
+
+        @media (max-width: 850px) {
+            flex-direction: column-reverse;
+            /* Graphic might go top or disappear, usually top on mobile, but let's stick to standard flow */
+            align-items: center;
+        }
+    }
+
+    .register-form-section {
+        flex: 1;
+        max-width: 420px;
+        /* Form section constrained width */
+    }
+
+    .register-graphic-section {
+        flex: 0 0 244px;
+        /* Fixed width for graphic section */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        @media (max-width: 850px) {
+            display: none;
+            /* Hide graphic on smaller screens to match responsive behavior roughly or just simplify */
+        }
+    }
+
+    .google-logo {
+        font-family: 'Product Sans', Arial, sans-serif;
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 8px;
+
+        span {
+            display: inline-block;
+        }
+    }
+
+    .register-heading {
+        color: #202124;
+        font-family: 'Google Sans', 'Noto Sans Myanmar UI', arial, sans-serif;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 1.3333;
+        margin-bottom: 24px;
+        margin-top: 0;
+    }
+
+    .error-message {
+        background-color: #fce4ec;
+        color: #c62828;
+        padding: 12px 16px;
+        border-radius: 4px;
+        margin-bottom: 16px;
+        font-size: 14px;
+    }
+
+    .register-form {
+        width: 100%;
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+
+            &.password-row {
+                margin-bottom: 8px;
+            }
+
+            .half-width {
+                flex: 1;
+            }
+        }
 
         .form-group {
-            flex: 1;
-            margin-bottom: 0;
+            margin-bottom: 24px;
+            position: relative;
+
+            .form-input {
+                width: 100%;
+                padding: 13px 15px;
+                border: 1px solid #dadce0;
+                border-radius: 4px;
+                font-size: 16px;
+                line-height: 24px;
+                color: #202124;
+                transition: border-color 0.2s;
+                height: 36px;
+                /* Box-sizing content-box implicitly via padding, let's fix height */
+                height: auto;
+                /* Let padding define height, roughly 50px total */
+
+                &:focus {
+                    outline: none;
+                    border: 2px solid #1a73e8;
+                    padding: 12px 14px;
+                }
+
+                &::placeholder {
+                    color: #5f6368;
+                }
+            }
+        }
+
+        .helper-text {
+            display: block;
+            color: #5f6368;
+            font-size: 12px;
+            margin-top: 4px;
+            margin-left: 2px;
+        }
+
+        .password-helper-text {
+            color: #5f6368;
+            font-size: 12px;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .current-email-link-container {
+            margin-bottom: 24px;
+
+            .btn-link {
+                background: none;
+                border: none;
+                color: #1a73e8;
+                font-weight: 500;
+                cursor: pointer;
+                padding: 0;
+                font-size: 14px;
+                font-family: inherit;
+
+                &:hover {
+                    color: #174ea6;
+                }
+            }
+        }
+
+        .show-password-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+
+            input[type="checkbox"] {
+                margin-right: 8px;
+                width: 18px;
+                height: 18px;
+                cursor: pointer;
+            }
+
+            label {
+                color: #202124;
+                font-size: 14px;
+                cursor: pointer;
+            }
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+
+            .sign-in-link {
+                color: #1a73e8;
+                font-weight: 500;
+                text-decoration: none;
+                font-size: 14px;
+
+                &:hover {
+                    color: #174ea6;
+                    text-decoration: underline;
+                }
+            }
+
+            .btn-primary {
+                background-color: #1a73e8;
+                color: #fff;
+                font-family: 'Google Sans', 'Noto Sans Myanmar UI', arial, sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                padding: 0 24px;
+                height: 36px;
+                border-radius: 4px;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.2s, box-shadow 0.2s;
+
+                &:hover {
+                    background-color: #1765cc;
+                    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.30), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+                }
+
+                &:disabled {
+                    background-color: rgba(60, 64, 67, 0.38);
+                    cursor: default;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+
+    .shield-graphic {
+        text-align: center;
+
+        .shield-svg {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 16px;
+        }
+
+        .graphic-caption {
+            color: #202124;
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.5;
+            max-width: 200px;
+            margin: 0 auto;
         }
     }
 }
