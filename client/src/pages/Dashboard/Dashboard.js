@@ -1,4 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    rectSortingStrategy,
+    useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
 import { noteService } from '../../services/noteService';
 import { labelService } from '../../services/labelService';
 import Header from '../../components/Header/Header';
@@ -6,14 +23,45 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import CreateNote from '../../components/CreateNote/CreateNote';
 import NoteCard from '../../components/NoteCard/NoteCard';
 import NoteModal from '../../components/NoteModal/NoteModal';
+import EditLabelsModal from '../../components/EditLabelsModal/EditLabelsModal';
 import './Dashboard.scss';
+
+// Wrapper component for sortable items
+const SortableNote = ({ note, ...props }) => {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: note._id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+            <NoteCard note={note} {...props} />
+        </div>
+    );
+};
 
 const Dashboard = () => {
     const [notes, setNotes] = useState([]);
     const [labels, setLabels] = useState([]);
     const [selectedNote, setSelectedNote] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [isLabelModalOpen, setIsLabelModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     useEffect(() => {
         fetchNotes();
@@ -109,6 +157,21 @@ const Dashboard = () => {
         }
     };
 
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+
+        if (active.id !== over.id) {
+            setNotes((items) => {
+                const oldIndex = items.findIndex((item) => item._id === active.id);
+                const newIndex = items.findIndex((item) => item._id === over.id);
+
+                return arrayMove(items, oldIndex, newIndex);
+            });
+            // Note: Add API call here to persist new order if backend supports it
+        }
+    };
+
+    // Filter notes
     const pinnedNotes = notes.filter((note) => note.isPinned && !note.isArchived && !note.isTrashed);
     const otherNotes = notes.filter((note) => !note.isPinned && !note.isArchived && !note.isTrashed);
 
@@ -121,7 +184,11 @@ const Dashboard = () => {
             />
 
             <div className="dashboard-content">
-                <Sidebar isOpen={sidebarOpen} labels={labels} />
+                <Sidebar
+                    isOpen={sidebarOpen}
+                    labels={labels}
+                    onEditLabels={() => setIsLabelModalOpen(true)}
+                />
 
                 <main className="dashboard-main">
                     <CreateNote onCreateNote={handleCreateNote} />
@@ -131,7 +198,11 @@ const Dashboard = () => {
                             <div className="spinner"></div>
                         </div>
                     ) : (
-                        <>
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragEnd={handleDragEnd}
+                        >
                             {pinnedNotes.length > 0 && (
                                 <div className="notes-section">
                                     <h3 className="section-title">PINNED</h3>
@@ -155,20 +226,26 @@ const Dashboard = () => {
                             {otherNotes.length > 0 && (
                                 <div className="notes-section">
                                     {pinnedNotes.length > 0 && <h3 className="section-title">OTHERS</h3>}
-                                    <div className="notes-grid">
-                                        {otherNotes.map((note) => (
-                                            <NoteCard
-                                                key={note._id}
-                                                note={note}
-                                                onClick={setSelectedNote}
-                                                onUpdate={handleUpdateNote}
-                                                onDelete={handleDeleteNote}
-                                                onArchive={handleArchiveNote}
-                                                onTrash={handleTrashNote}
-                                                onPin={handlePinNote}
-                                            />
-                                        ))}
-                                    </div>
+
+                                    <SortableContext
+                                        items={otherNotes.map(n => n._id)}
+                                        strategy={rectSortingStrategy}
+                                    >
+                                        <div className="notes-grid">
+                                            {otherNotes.map((note) => (
+                                                <SortableNote
+                                                    key={note._id}
+                                                    note={note}
+                                                    onClick={setSelectedNote}
+                                                    onUpdate={handleUpdateNote}
+                                                    onDelete={handleDeleteNote}
+                                                    onArchive={handleArchiveNote}
+                                                    onTrash={handleTrashNote}
+                                                    onPin={handlePinNote}
+                                                />
+                                            ))}
+                                        </div>
+                                    </SortableContext>
                                 </div>
                             )}
 
@@ -178,7 +255,7 @@ const Dashboard = () => {
                                     <p>Notes you add appear here</p>
                                 </div>
                             )}
-                        </>
+                        </DndContext>
                     )}
                 </main>
             </div>
@@ -193,6 +270,13 @@ const Dashboard = () => {
                     onTrash={handleTrashNote}
                 />
             )}
+
+            <EditLabelsModal
+                isOpen={isLabelModalOpen}
+                onClose={() => setIsLabelModalOpen(false)}
+                labels={labels}
+                onLabelsChange={setLabels}
+            />
         </div>
     );
 };

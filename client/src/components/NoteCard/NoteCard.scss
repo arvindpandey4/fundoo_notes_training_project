@@ -172,4 +172,39 @@
             }
         }
     }
+
+    .note-checklist {
+        padding: 8px 0;
+
+        .checklist-item-view {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: #202124;
+
+            .checkbox-preview {
+                width: 14px;
+                height: 14px;
+                border: 2px solid #5f6368;
+                border-radius: 2px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 10px;
+                color: #fff;
+
+                &.checked {
+                    background: #5f6368;
+                    border-color: #5f6368;
+                }
+            }
+
+            .text-done {
+                text-decoration: line-through;
+                color: #5f6368;
+            }
+        }
+    }
 }

@@ -52,7 +52,20 @@ const NoteCard = ({ note, onClick, onUpdate, onDelete, onArchive, onTrash, onPin
             </div>
 
             <div className="note-content">
-                <p className="note-description">{note.description}</p>
+                {note.isChecklist && note.checklist && note.checklist.length > 0 ? (
+                    <div className="note-checklist">
+                        {note.checklist.map((item, i) => (
+                            <div key={i} className="checklist-item-view">
+                                <div className={`checkbox-preview ${item.isDone ? 'checked' : ''}`}>
+                                    {item.isDone && '✓'}
+                                </div>
+                                <span className={item.isDone ? 'text-done' : ''}>{item.text}</span>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className="note-description">{note.description}</p>
+                )}
             </div>
 
             {note.labels && note.labels.length > 0 && (

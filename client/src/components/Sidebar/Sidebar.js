@@ -10,11 +10,13 @@ import {
 } from '@mui/icons-material';
 import './Sidebar.scss';
 
-const Sidebar = ({ isOpen, labels = [] }) => {
-    const menuItems = [
+const Sidebar = ({ isOpen, labels = [], onEditLabels }) => {
+    const mainItems = [
         { icon: <LightbulbIcon />, text: 'Notes', path: '/dashboard' },
         { icon: <NotificationsIcon />, text: 'Reminders', path: '/reminders' },
-        { icon: <EditIcon />, text: 'Edit labels', path: '/labels' },
+    ];
+
+    const sysItems = [
         { icon: <ArchiveIcon />, text: 'Archive', path: '/archive' },
         { icon: <DeleteIcon />, text: 'Trash', path: '/trash' },
     ];
@@ -22,7 +24,7 @@ const Sidebar = ({ isOpen, labels = [] }) => {
     return (
         <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
             <nav className="sidebar-nav">
-                {menuItems.map((item, index) => (
+                {mainItems.map((item, index) => (
                     <NavLink
                         key={index}
                         to={item.path}
@@ -37,7 +39,6 @@ const Sidebar = ({ isOpen, labels = [] }) => {
 
                 {labels.length > 0 && (
                     <>
-                        <div className="sidebar-divider"></div>
                         <div className="sidebar-section-title">Labels</div>
                         {labels.map((label) => (
                             <NavLink
@@ -55,6 +56,28 @@ const Sidebar = ({ isOpen, labels = [] }) => {
                         ))}
                     </>
                 )}
+
+                <div
+                    className="sidebar-item"
+                    onClick={onEditLabels}
+                    style={{ cursor: 'pointer' }}
+                >
+                    <span className="sidebar-icon"><EditIcon /></span>
+                    <span className="sidebar-text">Edit labels</span>
+                </div>
+
+                {sysItems.map((item, index) => (
+                    <NavLink
+                        key={index}
+                        to={item.path}
+                        className={({ isActive }) =>
+                            `sidebar-item ${isActive ? 'active' : ''}`
+                        }
+                    >
+                        <span className="sidebar-icon">{item.icon}</span>
+                        <span className="sidebar-text">{item.text}</span>
+                    </NavLink>
+                ))}
             </nav>
         </aside>
     );

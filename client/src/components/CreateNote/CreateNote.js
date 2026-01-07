@@ -3,6 +3,8 @@ import {
     CheckBox as CheckBoxIcon,
     Brush as BrushIcon,
     Image as ImageIcon,
+    Add as AddIcon,
+    Close as CloseIcon
 } from '@mui/icons-material';
 import './CreateNote.scss';
 
@@ -10,37 +12,74 @@ const CreateNote = ({ onCreateNote }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [isChecklistMode, setIsChecklistMode] = useState(false);
+    const [checklistItems, setChecklistItems] = useState([{ text: '', isDone: false }]);
+
+    const handleExpand = (checklistMode = false) => {
+        setIsChecklistMode(checklistMode);
+        setIsExpanded(true);
+    };
+
+    const handleChecklistChange = (index, value) => {
+        const newItems = [...checklistItems];
+        newItems[index].text = value;
+        setChecklistItems(newItems);
+
+        // Add new item if typing in the last one
+        if (index === newItems.length - 1 && value) {
+            setChecklistItems([...newItems, { text: '', isDone: false }]);
+        }
+    };
+
+    const handleRemoveItem = (index) => {
+        const newItems = checklistItems.filter((_, i) => i !== index);
+        setChecklistItems(newItems.length ? newItems : [{ text: '', isDone: false }]);
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!title.trim() && !description.trim()) {
+        if (e) e.preventDefault();
+
+        const hasChecklistContent = isChecklistMode && checklistItems.some(item => item.text.trim());
+
+        if (!title.trim() && !description.trim() && !hasChecklistContent) {
             setIsExpanded(false);
+            setChecklistItems([{ text: '', isDone: false }]);
+            setIsChecklistMode(false);
             return;
         }
 
         try {
-            await onCreateNote({ title, description });
+            const noteData = {
+                title,
+                description: isChecklistMode ? '' : description,
+                // Send checklist if active and has items. 
+                // Note: Ensure backend schema supports 'checklist' or 'items' array.
+                checklist: isChecklistMode ? checklistItems.filter(i => i.text.trim()) : [],
+                isChecklist: isChecklistMode
+            };
+
+            await onCreateNote(noteData);
+
+            // Reset state
             setTitle('');
             setDescription('');
+            setChecklistItems([{ text: '', isDone: false }]);
             setIsExpanded(false);
+            setIsChecklistMode(false);
         } catch (error) {
             console.error('Error creating note:', error);
         }
     };
 
     const handleClose = () => {
-        if (title.trim() || description.trim()) {
-            handleSubmit({ preventDefault: () => { } });
-        } else {
-            setIsExpanded(false);
-        }
+        handleSubmit();
     };
 
     return (
         <div className="create-note-container">
             <div className={`create-note ${isExpanded ? 'expanded' : ''}`}>
                 {!isExpanded ? (
-                    <div className="create-note-collapsed" onClick={() => setIsExpanded(true)}>
+                    <div className="create-note-collapsed" onClick={() => handleExpand(false)}>
                         <input
                             type="text"
                             placeholder="Take a note..."
@@ -48,7 +87,14 @@ const CreateNote = ({ onCreateNote }) => {
                             className="create-note-input-collapsed"
                         />
                         <div className="create-note-icons">
-                            <button className="icon-btn" title="New list">
+                            <button
+                                className="icon-btn"
+                                title="New list"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleExpand(true);
+                                }}
+                            >
                                 <CheckBoxIcon />
                             </button>
                             <button className="icon-btn" title="New note with drawing">
@@ -67,15 +113,41 @@ const CreateNote = ({ onCreateNote }) => {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             className="create-note-title"
-                            autoFocus
+                            autoFocus={!isChecklistMode}
                         />
-                        <textarea
-                            placeholder="Take a note..."
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="create-note-description"
-                            rows={3}
-                        />
+
+                        {isChecklistMode ? (
+                            <div className="checklist-container">
+                                {checklistItems.map((item, index) => (
+                                    <div key={index} className="checklist-item-row">
+                                        <AddIcon className="plus-icon" />
+                                        <input
+                                            type="text"
+                                            placeholder="List item"
+                                            value={item.text}
+                                            onChange={(e) => handleChecklistChange(index, e.target.value)}
+                                            className="checklist-input"
+                                            autoFocus={index === checklistItems.length - 1}
+                                        />
+                                        {item.text && (
+                                            <CloseIcon
+                                                className="remove-icon"
+                                                onClick={() => handleRemoveItem(index)}
+                                            />
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <textarea
+                                placeholder="Take a note..."
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className="create-note-description"
+                                rows={3}
+                            />
+                        )}
+
                         <div className="create-note-actions">
                             <div className="create-note-icons">
                                 <button type="button" className="icon-btn" title="Remind me">
